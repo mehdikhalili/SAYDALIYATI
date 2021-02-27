@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "991279072835",
+    "project_id": "saydaliyati-305922",
+    "storage_bucket": "saydaliyati-305922.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991279072835:android:c77d358af1a7cae1a676f6",
+        "android_client_info": {
+          "package_name": "com.iao.saydaliyati"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991279072835-5iikoo9cars93kpigm9bgqdorlin0tpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe9Y-TjZy_U1DZgXRFSKDYjI8p-JkB_cQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991279072835-5iikoo9cars93kpigm9bgqdorlin0tpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
