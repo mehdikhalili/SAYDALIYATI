@@ -12,7 +12,6 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.iao.saydaliyati.HomeActivity;
 import com.iao.saydaliyati.R;
 
 import androidx.core.app.NotificationCompat;
