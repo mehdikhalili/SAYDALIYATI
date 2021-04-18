@@ -8,6 +8,7 @@ public class Pharmacy {
     private String phone;
     private String email;
     private String address;
+    private String city;
     private String arrondissement;
     private float lat;
     private float lng;
@@ -37,6 +38,10 @@ public class Pharmacy {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public String getArrondissement() {
