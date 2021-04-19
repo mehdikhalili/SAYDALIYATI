@@ -15,32 +15,32 @@ android:background="#F2F2F0">
     android:layout_height="match_parent"
     tools:context=".MapsActivity" />
 
-<LinearLayout
-    android:id="@+id/linearLayout"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="24dp"
-    android:layout_marginTop="24dp"
-    android:layout_marginEnd="24dp"
-    android:orientation="vertical"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:hint="Search votre pharmacie"
-        android:inputType="textPersonName"
-        android:paddingLeft="24dp"
-        android:singleLine="true"
-        android:textAlignment="viewStart" />
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:hint="Search votre pharmacie"
+            android:inputType="textPersonName"
+            android:paddingLeft="24dp"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
 
-</LinearLayout>
+    </LinearLayout>
 
 <TableRow
     android:id="@+id/tableRow2"

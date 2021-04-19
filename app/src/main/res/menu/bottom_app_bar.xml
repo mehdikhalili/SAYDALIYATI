@@ -15,5 +15,4 @@
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_notif"
         android:title="@string/title_notifications" />
-
 </menu>
