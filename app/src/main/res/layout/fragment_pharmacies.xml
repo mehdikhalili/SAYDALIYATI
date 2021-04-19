@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_input"
@@ -88,7 +88,7 @@
                     android:paddingRight="32dp">
 
                     <TextView
-                        android:id="@+id/tv11"
+                        android:id="@+id/tvPharmacieName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
@@ -96,7 +96,7 @@
                         android:textColor="#000000" />
 
                     <TextView
-                        android:id="@+id/tv21"
+                        android:id="@+id/tvtvPharmacieAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Avenue 11 Janvier"

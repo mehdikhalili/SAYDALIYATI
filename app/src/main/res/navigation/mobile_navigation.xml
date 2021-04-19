@@ -6,16 +6,16 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
+        android:id="@+id/navigation_pharmacies"
+        android:name="com.iao.saydaliyati.ui.pharmacies.PharmaciesFragment"
+        android:label="@string/title_pharmacies"
+        tools:layout="@layout/fragment_pharmacies" />
+
+    <fragment
         android:id="@+id/navigation_home"
         android:name="com.iao.saydaliyati.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.iao.saydaliyati.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
