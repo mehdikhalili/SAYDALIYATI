@@ -14,7 +14,7 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,8 +71,9 @@ public class HomeFragment extends Fragment {
 
     LinearLayout layout_pharmacy;
     TextView tv_pharmacy_name;
-    Button btn_afficher;
-    Button btn_direction;
+    TextView tv_pharmacy_city;
+    ImageButton btn_afficher;
+    ImageButton btn_direction;
 
     private Polyline currentPolyline;
 
@@ -85,6 +86,7 @@ public class HomeFragment extends Fragment {
 
         layout_pharmacy = root.findViewById(R.id.layout_pharmacy);
         tv_pharmacy_name = root.findViewById(R.id.tv_pharmacy_name);
+        tv_pharmacy_city = root.findViewById(R.id.tv_pharmacy_city);
         btn_afficher = root.findViewById(R.id.btn_afficher);
         btn_direction = root.findViewById(R.id.btn_direction);
 
@@ -140,7 +142,8 @@ public class HomeFragment extends Fragment {
                     public boolean onMarkerClick(Marker marker) {
                         selectedMarker = marker;
                         Pharmacy pharmacy = (Pharmacy) marker.getTag();
-                        tv_pharmacy_name.setText(pharmacy.getName());
+                        tv_pharmacy_name.setText("Pharmacie " + pharmacy.getName());
+                        tv_pharmacy_city.setText(pharmacy.getCity());
                         layout_pharmacy.setVisibility(View.VISIBLE);
                         return false;
                     }

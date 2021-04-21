@@ -17,7 +17,7 @@ android:background="#F2F2F0">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".MapsActivity" />
-
+<!--
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
@@ -44,13 +44,15 @@ android:background="#F2F2F0">
             android:textAlignment="viewStart" />
 
     </LinearLayout>
+    -->
 
     <LinearLayout
+        android:id="@+id/layout_pharmacy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="15dp"
         android:layout_weight="1"
         android:background="@drawable/custom_pharmacie"
         android:gravity="center_vertical"
@@ -61,7 +63,8 @@ android:background="#F2F2F0">
         android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="44dp"
@@ -87,22 +90,21 @@ android:background="#F2F2F0">
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingLeft="24dp"
-            android:paddingRight="32dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp">
 
             <TextView
-                android:id="@+id/tvPharmacyName"
+                android:id="@+id/tv_pharmacy_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Pharmacie Mimosa"
+                android:text="Pharmacie "
                 android:textColor="#000000" />
 
             <TextView
-                android:id="@+id/tvtvPharmacieAddress"
+                android:id="@+id/tv_pharmacy_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="tvPharmacyDesc"
                 android:textColor="#C2C2C2"
                 android:textSize="12sp" />
 
@@ -133,7 +135,7 @@ android:background="#F2F2F0">
                     app:layout_constraintTop_toBottomOf="@+id/tvArrondissementValue">
 
                     <ImageButton
-                        android:id="@+id/ibMap"
+                        android:id="@+id/btn_direction"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -142,7 +144,6 @@ android:background="#F2F2F0">
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout3"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="40dp"
@@ -155,7 +156,7 @@ android:background="#F2F2F0">
                     app:layout_constraintTop_toBottomOf="@+id/tvArrondissementValue">
 
                     <ImageButton
-                        android:id="@+id/ibCall"
+                        android:id="@+id/btn_afficher"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
