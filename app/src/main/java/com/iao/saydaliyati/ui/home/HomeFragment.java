@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
@@ -36,13 +37,27 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.iao.saydaliyati.R;
+import com.iao.saydaliyati.directionhelper.DirectionsParser;
 import com.iao.saydaliyati.entity.Pharmacy;
 import com.iao.saydaliyati.repository.PharmacyRepository;
 import com.iao.saydaliyati.repository.intefaces.ListPharmaciesCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -59,12 +74,19 @@ public class HomeFragment extends Fragment {
     Button btn_afficher;
     Button btn_direction;
 
+    private Polyline currentPolyline;
+
+    private Marker selectedMarker;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-
+        layout_pharmacy = root.findViewById(R.id.layout_pharmacy);
+        tv_pharmacy_name = root.findViewById(R.id.tv_pharmacy_name);
+        btn_afficher = root.findViewById(R.id.btn_afficher);
+        btn_direction = root.findViewById(R.id.btn_direction);
 
         client = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -78,7 +100,7 @@ public class HomeFragment extends Fragment {
 
                 map = googleMap;
 
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     getCurrentLocation();
                 } else {
                     requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
@@ -90,44 +112,47 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void myResponseCallback(List<Pharmacy> pharmacies) {
 
-                        CameraPosition cameraPosition = new CameraPosition.Builder()
-                                .target(currentLocation)
-                                .zoom(15)
-                                .tilt(30)
-                                .build();
-
-                        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        animateCamera();
 
                         for (Pharmacy pharmacy: pharmacies) {
                             Marker marker =  map.addMarker(new MarkerOptions()
                                     .position(pharmacy.getLagLng())
                                     .title("Pharmacie " + pharmacy.getName())
-                                    .snippet("Test Test")
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                             marker.setTag(pharmacy);
                         }
                     }
                 });
 
-                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-
-                    }
-                });
-
                 map.setOnInfoWindowCloseListener(new GoogleMap.OnInfoWindowCloseListener() {
                     @Override
                     public void onInfoWindowClose(Marker marker) {
-                        Toast.makeText(getActivity(), "Info window closed", Toast.LENGTH_SHORT).show();
+                        selectedMarker = null;
+                        layout_pharmacy.setVisibility(View.INVISIBLE);
+                        if (currentPolyline != null){
+                            currentPolyline.remove();
+                        }
                     }
                 });
 
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        Toast.makeText(getActivity(), "Marker Clicked", Toast.LENGTH_SHORT).show();
+                        selectedMarker = marker;
+                        Pharmacy pharmacy = (Pharmacy) marker.getTag();
+                        tv_pharmacy_name.setText(pharmacy.getName());
+                        layout_pharmacy.setVisibility(View.VISIBLE);
                         return false;
+                    }
+                });
+
+                btn_direction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = getUrl(currentLocation, selectedMarker.getPosition());
+                        TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
+                        taskRequestDirections.execute(url);
+                        animateCamera();
                     }
                 });
             }
@@ -185,5 +210,135 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
+    }
+
+    private String getUrl(LatLng origin, LatLng dest) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        // Mode
+        String mode = "mode=walking";
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + mode;
+        // Output format
+        String output = "json";
+        // API key
+        String key = "key=AIzaSyAVX5FSWvTtpXBd4nOFwiul1bWSSSANGAo";
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&" + key;
+        return url;
+    }
+
+    private String requestDirection(String reqUrl) throws IOException {
+        String responseString = "";
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
+        try {
+            URL url = new URL(reqUrl);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.connect();
+
+            inputStream = httpURLConnection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            StringBuffer stringBuffer = new StringBuffer();
+            String line = "";
+
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuffer.append(line);
+            }
+
+            responseString = stringBuffer.toString();
+            bufferedReader.close();
+            inputStreamReader.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            httpURLConnection.disconnect();
+        }
+        return responseString;
+    }
+
+    public class TaskRequestDirections extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            String responseString = "";
+            try {
+                responseString = requestDirection(strings[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            TaskParser taskParser = new TaskParser();
+            taskParser.execute(s);
+        }
+    }
+    
+    public class TaskParser extends AsyncTask<String, Void, List<List<HashMap<String, String>>>> {
+
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... strings) {
+            JSONObject jsonObject = null;
+            List<List<HashMap<String, String>>> routes = null;
+            try {
+                jsonObject = new JSONObject(strings[0]);
+                DirectionsParser directionsParser = new DirectionsParser();
+                routes = directionsParser.parse(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
+            //super.onPostExecute(lists);
+
+            ArrayList points = null;
+
+            PolylineOptions polylineOptions = null;
+
+            for (List<HashMap<String, String>> path: lists) {
+                points = new ArrayList();
+                polylineOptions = new PolylineOptions();
+
+                for (HashMap<String, String> point: path) {
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lon"));
+                    points.add(new LatLng(lat, lng));
+                }
+                polylineOptions.addAll(points);
+                polylineOptions.width(20);
+                polylineOptions.color(ContextCompat.getColor(getContext(), R.color.deep_green));
+                polylineOptions.geodesic(true);
+            }
+
+            if (polylineOptions != null) {
+                currentPolyline = map.addPolyline(polylineOptions);
+            } else {
+                Toast.makeText(getActivity(), "Direction not found", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void animateCamera() {
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(currentLocation)
+                .zoom(18)
+                .tilt(30)
+                .build();
+
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 }
