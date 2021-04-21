@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_pharmacies"
-        android:name="com.iao.saydaliyati.SettingsFragment"
+        android:name="com.iao.saydaliyati.ui.pharmacies.PharmaciesFragment"
         android:label="@string/title_pharmacies"
-        tools:layout="@xml/root_preferences" />
+        tools:layout="@layout/fragment_pharmacies" />
 
     <fragment
         android:id="@+id/navigation_home"
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.iao.saydaliyati.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.iao.saydaliyati.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@xml/root_preferences" />
 </navigation>
