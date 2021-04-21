@@ -1,5 +1,7 @@
 package com.iao.saydaliyati.entity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Pharmacy {
 
     private String id;
@@ -54,5 +56,11 @@ public class Pharmacy {
 
     public float getLng() {
         return lng;
+    }
+
+    public LatLng getLagLng() { return new LatLng(lat, lng); }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
