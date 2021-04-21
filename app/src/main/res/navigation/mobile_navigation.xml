@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_pharmacies"
-        android:name="com.iao.saydaliyati.ui.pharmacies.PharmaciesFragment"
+        android:name="com.iao.saydaliyati.SettingsFragment"
         android:label="@string/title_pharmacies"
-        tools:layout="@layout/fragment_pharmacies" />
+        tools:layout="@xml/root_preferences" />
 
     <fragment
         android:id="@+id/navigation_home"
