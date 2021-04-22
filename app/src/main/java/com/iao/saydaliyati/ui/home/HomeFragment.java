@@ -46,6 +46,7 @@ import com.iao.saydaliyati.directionhelper.DirectionsParser;
 import com.iao.saydaliyati.entity.Pharmacy;
 import com.iao.saydaliyati.repository.PharmacyRepository;
 import com.iao.saydaliyati.repository.intefaces.ListPharmaciesCallback;
+import com.iao.saydaliyati.ui.profile.ProfileActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -143,7 +144,7 @@ public class HomeFragment extends Fragment {
                         selectedMarker = marker;
                         Pharmacy pharmacy = (Pharmacy) marker.getTag();
                         tv_pharmacy_name.setText("Pharmacie " + pharmacy.getName());
-                        tv_pharmacy_city.setText(pharmacy.getCity());
+                        tv_pharmacy_city.setText(pharmacy.getCity() + ", " + pharmacy.getArrondissement());
                         layout_pharmacy.setVisibility(View.VISIBLE);
                         return false;
                     }
@@ -156,6 +157,16 @@ public class HomeFragment extends Fragment {
                         TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
                         taskRequestDirections.execute(url);
                         animateCamera();
+                    }
+                });
+
+                btn_afficher.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Pharmacy pharmacy = (Pharmacy) selectedMarker.getTag();
+                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        intent.putExtra("pharmacy", pharmacy);
+                        startActivity(intent);
                     }
                 });
             }

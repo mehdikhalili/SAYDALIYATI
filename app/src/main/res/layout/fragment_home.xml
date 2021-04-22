@@ -131,8 +131,7 @@ android:background="#F2F2F0">
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
                     app:layout_constraintHorizontal_bias="0.84"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvArrondissementValue">
+                    app:layout_constraintStart_toStartOf="parent">
 
                     <ImageButton
                         android:id="@+id/btn_direction"
@@ -152,8 +151,7 @@ android:background="#F2F2F0">
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.16"
-                    app:layout_constraintStart_toEndOf="@+id/linearLayout4"
-                    app:layout_constraintTop_toBottomOf="@+id/tvArrondissementValue">
+                    app:layout_constraintStart_toEndOf="@+id/linearLayout4">
 
                     <ImageButton
                         android:id="@+id/btn_afficher"
@@ -175,7 +173,7 @@ android:background="#F2F2F0">
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 

@@ -2,7 +2,9 @@ package com.iao.saydaliyati.entity;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Pharmacy {
+import java.io.Serializable;
+
+public class Pharmacy implements Serializable {
 
     private String id;
     private String name;
