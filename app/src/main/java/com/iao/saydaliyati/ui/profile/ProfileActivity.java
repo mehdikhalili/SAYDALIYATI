@@ -1,9 +1,13 @@
 package com.iao.saydaliyati.ui.profile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.iao.saydaliyati.MainActivity;
 import com.iao.saydaliyati.R;
 import com.iao.saydaliyati.entity.Pharmacy;
 
@@ -14,12 +18,14 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tv_name, tv_address, tv_owner, tv_email, tv_phone, tv_arrondissement;
     ImageButton ib_map, ib_call;
 
+    Pharmacy pharmacy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Pharmacy pharmacy = (Pharmacy) getIntent().getSerializableExtra("pharmacy");
+        pharmacy = (Pharmacy) getIntent().getSerializableExtra("pharmacy");
 
         tv_name = findViewById(R.id.tv_name);
         tv_address = findViewById(R.id.tv_address);
@@ -38,6 +44,16 @@ public class ProfileActivity extends AppCompatActivity {
         tv_phone.setText(pharmacy.getPhone());
         tv_arrondissement.setText(pharmacy.getCity() + ", " + pharmacy.getArrondissement());
 
+        Activity activity = this;
+
+        ib_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, MainActivity.class);
+                intent.putExtra("pharmacy", pharmacy);
+                startActivity(intent);
+            }
+        });
 
     }
 }

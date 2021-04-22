@@ -71,14 +71,16 @@ public class HomeFragment extends Fragment {
     LatLng currentLocation = new LatLng(34.0392857 ,-6.8200107);
 
     LinearLayout layout_pharmacy;
-    TextView tv_pharmacy_name;
-    TextView tv_pharmacy_city;
-    ImageButton btn_afficher;
-    ImageButton btn_direction;
+    TextView tv_pharmacy_name, tv_pharmacy_city;
+    ImageButton btn_afficher, btn_direction;
 
     private Polyline currentPolyline;
 
     private Marker selectedMarker;
+
+    Pharmacy pharmacyFromProfile;
+
+    boolean isPharmacyFromProfile = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +92,12 @@ public class HomeFragment extends Fragment {
         tv_pharmacy_city = root.findViewById(R.id.tv_pharmacy_city);
         btn_afficher = root.findViewById(R.id.btn_afficher);
         btn_direction = root.findViewById(R.id.btn_direction);
+
+        pharmacyFromProfile = (Pharmacy) getActivity().getIntent().getSerializableExtra("pharmacy");
+
+        if (pharmacyFromProfile != null) {
+            isPharmacyFromProfile = true;
+        }
 
         client = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -114,16 +122,25 @@ public class HomeFragment extends Fragment {
                 pharmacyRepository.findGardPharmacies(new ListPharmaciesCallback() {
                     @Override
                     public void myResponseCallback(List<Pharmacy> pharmacies) {
-
-                        animateCamera();
-
+                        LatLng location = currentLocation;
                         for (Pharmacy pharmacy: pharmacies) {
                             Marker marker =  map.addMarker(new MarkerOptions()
                                     .position(pharmacy.getLagLng())
                                     .title("Pharmacie " + pharmacy.getName())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                             marker.setTag(pharmacy);
+                            if (isPharmacyFromProfile) {
+                                if (pharmacy.getId().equals(pharmacyFromProfile.getId())) {
+                                    location = pharmacy.getLagLng();
+                                    tv_pharmacy_name.setText("Pharmacie " + pharmacy.getName());
+                                    tv_pharmacy_city.setText(pharmacy.getCity() + ", " + pharmacy.getArrondissement());
+                                    selectedMarker = marker;
+                                    layout_pharmacy.setVisibility(View.VISIBLE);
+                                    marker.showInfoWindow();
+                                }
+                            }
                         }
+                        animateCamera(location);
                     }
                 });
 
@@ -156,7 +173,7 @@ public class HomeFragment extends Fragment {
                         String url = getUrl(currentLocation, selectedMarker.getPosition());
                         TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
                         taskRequestDirections.execute(url);
-                        animateCamera();
+                        animateCamera(currentLocation);
                     }
                 });
 
@@ -346,10 +363,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void animateCamera() {
+    private void animateCamera(LatLng location) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(currentLocation)
-                .zoom(18)
+                .target(location)
+                .zoom(16)
                 .tilt(30)
                 .build();
 
