@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_pharmacies"
-        android:icon="@drawable/ic_pharmacie"
+        android:icon="@drawable/ic_app_icon"
         android:title="@string/title_pharmacies" />
 
     <item
@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_notif"
+        android:icon="@drawable/ic_settings"
         android:title="@string/title_settings" />
 
 </menu>
