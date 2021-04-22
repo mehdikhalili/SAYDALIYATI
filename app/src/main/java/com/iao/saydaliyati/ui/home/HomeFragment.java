@@ -150,6 +150,8 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+                map.getUiSettings().setMapToolbarEnabled(false);
+
                 map.setOnInfoWindowCloseListener(new GoogleMap.OnInfoWindowCloseListener() {
                     @Override
                     public void onInfoWindowClose(Marker marker) {
