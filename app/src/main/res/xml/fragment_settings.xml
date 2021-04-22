@@ -1,0 +1,29 @@
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="notifications_category"
+        app:title="Notifications">
+
+        <SwitchPreferenceCompat
+            app:key="notification_weekend"
+            app:title="La garde de week-end"/>
+
+        <SwitchPreferenceCompat
+            app:key="notification_day"
+            app:title="La garde par jour"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="help_category"
+        app:title="Help">
+
+        <Preference
+            app:key="feedback"
+            app:summary="Report technical issues or suggest new features"
+            app:title="Send feedback"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
