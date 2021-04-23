@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment {
     FusedLocationProviderClient client;
 
     LatLng currentLocation = new LatLng(34.0392857 ,-6.8200107);
+    LatLng anotherLocation;
 
     LinearLayout layout_pharmacy;
     TextView tv_pharmacy_name, tv_pharmacy_city;
@@ -84,6 +85,8 @@ public class HomeFragment extends Fragment {
     private Polyline currentPolyline;
 
     private Marker selectedMarker;
+
+    private List<Marker> allMarkers = new ArrayList<Marker>();
 
     Pharmacy pharmacyFromProfile;
 
@@ -133,25 +136,14 @@ public class HomeFragment extends Fragment {
                 pharmacyRepository.findGardPharmacies(new ListPharmaciesCallback() {
                     @Override
                     public void myResponseCallback(List<Pharmacy> pharmacies) {
-                        LatLng location = currentLocation;
-                        for (Pharmacy pharmacy: pharmacies) {
-                            Marker marker =  map.addMarker(new MarkerOptions()
-                                    .position(pharmacy.getLagLng())
-                                    .title("Pharmacie " + pharmacy.getName())
-                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_garde_marker)));
-                            marker.setTag(pharmacy);
-                            if (isPharmacyFromProfile) {
-                                if (pharmacy.getId().equals(pharmacyFromProfile.getId())) {
-                                    location = pharmacy.getLagLng();
-                                    tv_pharmacy_name.setText("Pharmacie " + pharmacy.getName());
-                                    tv_pharmacy_city.setText(pharmacy.getCity() + ", " + pharmacy.getArrondissement());
-                                    selectedMarker = marker;
-                                    layout_pharmacy.setVisibility(View.VISIBLE);
-                                    marker.showInfoWindow();
-                                }
-                            }
-                        }
-                        animateCamera(location);
+                        showPharmacies(pharmacies, R.drawable.ic_garde_marker);
+                    }
+                });
+
+                pharmacyRepository.findNormalPharmacies(new ListPharmaciesCallback() {
+                    @Override
+                    public void myResponseCallback(List<Pharmacy> pharmacies) {
+                        showPharmacies(pharmacies, R.drawable.ic_normal_marker);
                     }
                 });
 
@@ -164,6 +156,9 @@ public class HomeFragment extends Fragment {
                         layout_pharmacy.setVisibility(View.INVISIBLE);
                         if (currentPolyline != null){
                             currentPolyline.remove();
+                        }
+                        for (Marker iteratorMarker : allMarkers) {
+                            iteratorMarker.setVisible(true);
                         }
                     }
                 });
@@ -183,10 +178,19 @@ public class HomeFragment extends Fragment {
                 btn_direction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String url = getUrl(currentLocation, selectedMarker.getPosition());
+                        String url = getUrl(anotherLocation, selectedMarker.getPosition());
                         TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
                         taskRequestDirections.execute(url);
-                        animateCamera(currentLocation);
+                        animateCamera(anotherLocation);
+
+                        Pharmacy pharmacy1 = (Pharmacy) selectedMarker.getTag();
+
+                        for (Marker iteratorMarker : allMarkers) {
+                            Pharmacy pharmacy2 = (Pharmacy) iteratorMarker.getTag();
+                            if (! pharmacy1.getId().equals(pharmacy2.getId())) {
+                                iteratorMarker.setVisible(false);
+                            }
+                        }
                     }
                 });
 
@@ -230,6 +234,7 @@ public class HomeFragment extends Fragment {
 
                     if (location != null) {
                         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                        anotherLocation = currentLocation;
                     } else {
                         LocationRequest locationRequest = new LocationRequest()
                                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -242,6 +247,7 @@ public class HomeFragment extends Fragment {
                             public void onLocationResult(LocationResult locationResult) {
                                 Location location1 = locationResult.getLastLocation();
                                 currentLocation = new LatLng(location1.getLatitude(), location1.getLongitude());
+                                anotherLocation = currentLocation;
                             }
                         };
                         client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
@@ -262,7 +268,7 @@ public class HomeFragment extends Fragment {
         // Destination of route
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
         // Mode
-        String mode = "mode=walking";
+        String mode = "mode=driving";
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + mode;
         // Output format
@@ -347,7 +353,6 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
-            //super.onPostExecute(lists);
 
             ArrayList points = null;
 
@@ -393,5 +398,29 @@ public class HomeFragment extends Fragment {
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private void showPharmacies(List<Pharmacy> pharmacies, int markerIcon) {
+        for (Pharmacy pharmacy: pharmacies) {
+            Marker marker =  map.addMarker(new MarkerOptions()
+                    .position(pharmacy.getLagLng())
+                    .title("Pharmacie " + pharmacy.getName())
+                    .icon(bitmapDescriptorFromVector(getActivity(), markerIcon)));
+            marker.setTag(pharmacy);
+            if (isPharmacyFromProfile) {
+                if (pharmacy.getId().equals(pharmacyFromProfile.getId())) {
+                    currentLocation = pharmacy.getLagLng();
+                    marker.showInfoWindow();
+                    tv_pharmacy_name.setText("Pharmacie " + pharmacy.getName());
+                    tv_pharmacy_city.setText(pharmacy.getCity() + ", " + pharmacy.getArrondissement());
+                    layout_pharmacy.setVisibility(View.VISIBLE);
+                    selectedMarker = marker;
+                    getActivity().getIntent().removeExtra("pharmacy");
+                    isPharmacyFromProfile = false;
+                }
+            }
+            allMarkers.add(marker);
+        }
+        animateCamera(currentLocation);
     }
 }

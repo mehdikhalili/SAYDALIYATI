@@ -139,7 +139,7 @@ android:background="#F2F2F0">
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_map_marker2" />
+                        android:src="@drawable/ic_direction" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -159,7 +159,7 @@ android:background="#F2F2F0">
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_call2" />
+                        android:src="@drawable/ic_infos" />
 
                 </LinearLayout>
 

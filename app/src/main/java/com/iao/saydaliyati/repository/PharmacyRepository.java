@@ -118,4 +118,32 @@ public class PharmacyRepository {
             }
         });
     }
+
+    public void findNormalPharmacies(ListPharmaciesCallback callback) {
+        findGardPharmaciesByDay(new PharmaciesCallback() {
+            @Override
+            public void myResponseCallback(List pharmacies) {
+                db.collection("pharmacies")
+                        .whereNotIn(FieldPath.documentId(), pharmacies)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                if (task.isSuccessful()) {
+
+                                    List<Pharmacy> list = new ArrayList<Pharmacy>();
+
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Pharmacy pharmacy = document.toObject(Pharmacy.class);
+                                        pharmacy.setId(document.getId());
+                                        list.add(pharmacy);
+                                    }
+                                    callback.myResponseCallback(list);
+                                }
+                            }
+                        });
+            }
+        });
+    }
 }
