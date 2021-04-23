@@ -52,7 +52,7 @@
                 android:paddingRight="32dp">
 
                 <TextView
-                    android:id="@+id/tvPharmacyName"
+                    android:id="@+id/tv_list_item_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
@@ -60,7 +60,7 @@
                     android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/tvtvPharmacieAddress"
+                    android:id="@+id/tv_list_item_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Avenue 11 Janvier"
@@ -93,12 +93,12 @@
                         app:layout_constraintStart_toStartOf="parent">
 
                         <ImageButton
-                            android:id="@+id/btn_direction"
+                            android:id="@+id/ib_list_item_map"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@android:color/transparent"
-                            android:src="@drawable/ic_direction" />
+                            android:src="@drawable/ic_map_marker2" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -113,7 +113,7 @@
                         app:layout_constraintStart_toEndOf="@+id/linearLayout4">
 
                         <ImageButton
-                            android:id="@+id/btn_afficher"
+                            android:id="@+id/ib_list_item_afficher"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
