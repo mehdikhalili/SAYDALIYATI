@@ -30,7 +30,7 @@ public class PharmacyRepository {
 
     private static final String TAG = "Pharmacy repository";
 
-    public List<Pharmacy> findAll() {
+    public List<Pharmacy> findAll(ListPharmaciesCallback callback) {
         List<Pharmacy> list = new ArrayList<Pharmacy>();
         db.collection("pharmacies")
                 .get()
@@ -53,7 +53,7 @@ public class PharmacyRepository {
                 });
         return list;
     }
-
+/*
     public Pharmacy find(String id) {
         final Pharmacy[] pharmacy = new Pharmacy[1];
         db.document("pharmacies/"+id)
@@ -66,8 +66,8 @@ public class PharmacyRepository {
                 });
         return pharmacy[0];
     }
-
-    public void findGardPharmaciesByDay(PharmaciesCallback callback) {
+*/
+    private void findGardPharmaciesByDay(PharmaciesCallback callback) {
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -81,11 +81,12 @@ public class PharmacyRepository {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            List pharmacies = new ArrayList();
+                            pharmacies.add("TEST");
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                List pharmacies = (List) document.getData().get("pharmacies");
-                                //Log.d(TAG, "List inside listener => " + pharmacies[0]);
-                                callback.myResponseCallback(pharmacies);
+                                pharmacies = (List) document.getData().get("pharmacies");
                             }
+                            callback.myResponseCallback(pharmacies);
                         }
                     }
                 });
@@ -101,18 +102,7 @@ public class PharmacyRepository {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                                if (task.isSuccessful()) {
-
-                                    List<Pharmacy> list = new ArrayList<Pharmacy>();
-
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Pharmacy pharmacy = document.toObject(Pharmacy.class);
-                                        pharmacy.setId(document.getId());
-                                        list.add(pharmacy);
-                                    }
-                                    callback.myResponseCallback(list);
-                                }
+                                setDataInCallback(callback, task, true);
                             }
                         });
             }
@@ -129,21 +119,23 @@ public class PharmacyRepository {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                                if (task.isSuccessful()) {
-
-                                    List<Pharmacy> list = new ArrayList<Pharmacy>();
-
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Pharmacy pharmacy = document.toObject(Pharmacy.class);
-                                        pharmacy.setId(document.getId());
-                                        list.add(pharmacy);
-                                    }
-                                    callback.myResponseCallback(list);
-                                }
+                                setDataInCallback(callback, task, false);
                             }
                         });
             }
         });
+    }
+
+    private void setDataInCallback(ListPharmaciesCallback callback, Task<QuerySnapshot> task, boolean isGard) {
+        if (task.isSuccessful()) {
+            List<Pharmacy> list = new ArrayList<Pharmacy>();
+            for (QueryDocumentSnapshot document : task.getResult()) {
+                Pharmacy pharmacy = document.toObject(Pharmacy.class);
+                pharmacy.setId(document.getId());
+                pharmacy.setGard(isGard);
+                list.add(pharmacy);
+            }
+            callback.myResponseCallback(list);
+        }
     }
 }

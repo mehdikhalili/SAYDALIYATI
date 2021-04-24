@@ -7,7 +7,9 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="93dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,15 +51,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingLeft="24dp"
-                android:paddingRight="32dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -66,23 +68,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
+                            android:maxWidth="144dp"
                             android:text="Pharmacie Mimosa"
-                            android:textColor="#000000"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:textColor="#000000" />
 
-                        <LinearLayout
-                            android:id="@+id/isGarde"
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/circle_green"
-                            android:orientation="horizontal"
-                            android:textAlignment="center"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/tv_list_item_name"
-                            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/iv_list_item_isGard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginTop="5dp"
+                            app:srcCompat="@drawable/circle_green"
+                            android:visibility="invisible"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -159,7 +157,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 

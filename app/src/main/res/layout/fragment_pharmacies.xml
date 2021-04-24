@@ -18,19 +18,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/spinner_city"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:background="@drawable/custom_input" />
 
         <Spinner
-            android:id="@+id/spinner3"
+            android:id="@+id/spinner_gard"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="5dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:background="@drawable/custom_input" />
@@ -39,10 +39,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_height="0dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
