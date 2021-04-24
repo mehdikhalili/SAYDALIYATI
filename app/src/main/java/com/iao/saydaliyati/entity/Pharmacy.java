@@ -16,6 +16,7 @@ public class Pharmacy implements Serializable {
     private String arrondissement;
     private float lat;
     private float lng;
+    private boolean isGard;
 
     public Pharmacy() {
     }
@@ -64,5 +65,13 @@ public class Pharmacy implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean isGard() {
+        return isGard;
+    }
+
+    public void setGard(boolean gard) {
+        isGard = gard;
     }
 }

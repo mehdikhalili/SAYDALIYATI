@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iao.saydaliyati.MainActivity;
@@ -46,6 +47,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.getTv_list_item_name().setText(pharmacy.getName());
         holder.getTv_list_item_city().setText(pharmacy.getCity()+ ", "+ pharmacy.getArrondissement());
 
+        if (pharmacy.isGard()) {
+            holder.getIv_list_item_isGard().setVisibility(View.VISIBLE);
+        }
+
         holder.getIb_list_item_map().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private final TextView tv_list_item_city;
         private final ImageButton ib_list_item_map;
         private final ImageButton ib_list_item_afficher;
+        private final ImageView iv_list_item_isGard;
         
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +89,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             tv_list_item_city = itemView.findViewById(R.id.tv_list_item_city);
             ib_list_item_map = itemView.findViewById(R.id.ib_list_item_map);
             ib_list_item_afficher = itemView.findViewById(R.id.ib_list_item_afficher);
+            iv_list_item_isGard = itemView.findViewById(R.id.iv_list_item_isGard);
         }
 
         public TextView getTv_list_item_name() {
@@ -100,5 +107,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public ImageButton getIb_list_item_afficher() {
             return ib_list_item_afficher;
         }
+
+        public ImageView getIv_list_item_isGard() { return iv_list_item_isGard; }
     }
 }

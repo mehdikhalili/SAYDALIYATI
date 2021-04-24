@@ -1,5 +1,7 @@
 package com.iao.saydaliyati.ui.settings;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,6 +15,7 @@ import com.iao.saydaliyati.R;
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
 
     private SwitchPreferenceCompat notification_weekend, notification_day;
+    private Preference feedback;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -20,6 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         notification_weekend = findPreference("notification_weekend");
         notification_day = findPreference("notification_day");
+        feedback = findPreference("feedback");
 
         notification_weekend.setSummaryProvider(new Preference.SummaryProvider() {
             @Override
@@ -45,6 +49,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         notification_weekend.setOnPreferenceChangeListener(this);
         notification_day.setOnPreferenceChangeListener(this);
+
+        feedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+                intent.setData(Uri.parse("mailto:contact@saydaliyati.ma"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
     @Override
