@@ -6,7 +6,6 @@
 
     <string name="pharmacie">Pharmacie</string>
     <string name="direction_introuvable">Direction introuvable</string>
-    <string name="permission_localisation_refusee">Permission de localisation refusée</string>
     <string name="permission_appel_refusee">Permission d\'appeler par téléphone refusée</string>
 
     <string name="toutes_les_pharmacies">Toutes les pharmacies</string>

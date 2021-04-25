@@ -119,11 +119,7 @@ public class HomeFragment extends Fragment {
 
                 map = googleMap;
 
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentLocation();
-                } else {
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-                }
+                checkLocationPermission();
 
                 try {
                     map.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.map_style));
@@ -176,6 +172,9 @@ public class HomeFragment extends Fragment {
                 btn_direction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (currentPolyline != null){
+                            currentPolyline.remove();
+                        }
                         String url = getUrl(anotherLocation, selectedMarker.getPosition());
                         TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
                         taskRequestDirections.execute(url);
@@ -214,7 +213,7 @@ public class HomeFragment extends Fragment {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
         } else {
-            Toast.makeText(getActivity(), getString(R.string.permission_localisation_refusee), Toast.LENGTH_SHORT).show();
+            checkLocationPermission();
         }
     }
 
@@ -419,5 +418,13 @@ public class HomeFragment extends Fragment {
             allMarkers.add(marker);
         }
         animateCamera(currentLocation);
+    }
+
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
     }
 }
