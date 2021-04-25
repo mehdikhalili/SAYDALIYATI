@@ -1,6 +1,7 @@
 <resources>
     <string-array name="cities_spinner">
         <item>@string/toutes_les_villes</item>
+        <item>Rabat</item>
         <item>Salé</item>
     </string-array>
 
