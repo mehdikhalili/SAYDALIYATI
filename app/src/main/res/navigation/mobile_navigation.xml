@@ -8,18 +8,15 @@
     <fragment
         android:id="@+id/navigation_pharmacies"
         android:name="com.iao.saydaliyati.ui.pharmacies.PharmaciesFragment"
-        android:label="@string/title_pharmacies"
         tools:layout="@layout/fragment_pharmacies" />
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.iao.saydaliyati.ui.home.HomeFragment"
-        android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.iao.saydaliyati.ui.settings.SettingsFragment"
-        android:label="@string/title_settings"
         tools:layout="@xml/fragment_settings" />
 </navigation>

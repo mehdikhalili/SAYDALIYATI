@@ -1,17 +1,12 @@
 package com.iao.saydaliyati.ui.pharmacies;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.iao.saydaliyati.R;
 import com.iao.saydaliyati.entity.Pharmacy;
@@ -19,12 +14,10 @@ import com.iao.saydaliyati.repository.PharmacyRepository;
 import com.iao.saydaliyati.repository.intefaces.ListPharmaciesCallback;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,10 +31,6 @@ public class PharmaciesFragment extends Fragment implements AdapterView.OnItemSe
     String spinner_gard_value = "";
     PharmacyRepository pharmacyRepository = new PharmacyRepository();
     boolean dataIsHere = false;
-
-    private static int compare(Pharmacy o1, Pharmacy o2) {
-        return o1.getName().compareTo(o2.getName());
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -137,6 +126,5 @@ public class PharmaciesFragment extends Fragment implements AdapterView.OnItemSe
         MyAdapter adapter = new MyAdapter(getContext(), pharmacies);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //Toast.makeText(getContext(), "IS GARD", Toast.LENGTH_SHORT).show();
     }
 }

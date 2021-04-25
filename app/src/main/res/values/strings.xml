@@ -1,39 +1,15 @@
 <resources>
     <string name="app_name">SAYDALIYATI</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_pharmacies">ScrollingActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_main">Accueil</string>
     <string name="title_pharmacies">Pharmacies</string>
     <string name="title_home">Map</string>
     <string name="title_settings">Paramètres</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="pharmacie">Pharmacie</string>
+    <string name="direction_introuvable">Direction introuvable</string>
+    <string name="permission_localisation_refusee">Permission de localisation refusée</string>
+    <string name="permission_appel_refusee">Permission d\'appeler par téléphone refusée</string>
 
     <string name="toutes_les_pharmacies">Toutes les pharmacies</string>
     <string name="toutes_les_villes">Toutes les villes</string>
-    <string name="en_garde">Garde</string>
-
-    <string-array name="cities_spinner">
-        <item>@string/toutes_les_villes</item>
-        <item>Salé</item>
-    </string-array>
-
-    <string-array name="gard_spinner">
-        <item>@string/toutes_les_pharmacies</item>
-        <item>@string/en_garde</item>
-    </string-array>
+    <string name="en_garde">Pharmacies de garde</string>
 </resources>

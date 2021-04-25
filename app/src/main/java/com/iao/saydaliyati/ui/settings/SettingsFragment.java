@@ -3,7 +3,6 @@ package com.iao.saydaliyati.ui.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -72,19 +71,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         if (key.equals("notification_weekend")) {
             if (isChecked) {
                 FirebaseMessaging.getInstance().subscribeToTopic("weekend");
-                Log.d("SETTINGS", key + " is checked");
             } else {
                 FirebaseMessaging.getInstance().unsubscribeFromTopic("weekend");
-                Log.d("SETTINGS", key + " is not checked");
             }
         }
         else if (key.equals("notification_day")) {
             if (isChecked) {
                 FirebaseMessaging.getInstance().subscribeToTopic("every_day");
-                Log.d("SETTINGS", key + " is checked");
             } else {
                 FirebaseMessaging.getInstance().unsubscribeFromTopic("every_day");
-                Log.d("SETTINGS", key + " is not checked");
             }
         }
 

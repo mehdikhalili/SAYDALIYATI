@@ -7,7 +7,7 @@
 
         <SwitchPreferenceCompat
             app:key="notification_weekend"
-            app:title="La garde par week-end"/>
+            app:title="La garde de week-end"/>
 
         <SwitchPreferenceCompat
             app:key="notification_day"
@@ -22,7 +22,7 @@
         <Preference
             app:key="feedback"
             app:summary="Signaler des problèmes techniques ou suggérer de nouvelles fonctionnalités"
-            app:title="Envoyez un feedback"/>
+            app:title="Envoyez-nous un feedback"/>
 
     </PreferenceCategory>
 

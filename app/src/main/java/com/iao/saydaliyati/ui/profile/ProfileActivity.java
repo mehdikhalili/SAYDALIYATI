@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         ib_map = findViewById(R.id.ib_map);
         ib_call = findViewById(R.id.ib_call);
 
-        tv_name.setText("Pharmacie " + pharmacy.getName());
+        tv_name.setText(getString(R.string.pharmacie) +" " + pharmacy.getName());
         tv_address.setText(pharmacy.getAddress());
         tv_owner.setText(pharmacy.getOwner());
         tv_email.setText(pharmacy.getEmail());
@@ -85,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (requestCode == PHONE_CALL_PERMISSION_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             makeCall();
         } else {
-            Toast.makeText(this, "Call phone permission denied", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.permission_appel_refusee), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -23,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -49,7 +48,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.iao.saydaliyati.R;
-import com.iao.saydaliyati.directionhelper.DirectionsParser;
+import com.iao.saydaliyati.ui.home.directionhelper.DirectionsParser;
 import com.iao.saydaliyati.entity.Pharmacy;
 import com.iao.saydaliyati.repository.PharmacyRepository;
 import com.iao.saydaliyati.repository.intefaces.ListPharmaciesCallback;
@@ -114,7 +113,6 @@ public class HomeFragment extends Fragment {
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-
             @SuppressLint("MissingPermission")
             @Override
             public void onMapReady(GoogleMap googleMap) {
@@ -168,7 +166,7 @@ public class HomeFragment extends Fragment {
                     public boolean onMarkerClick(Marker marker) {
                         selectedMarker = marker;
                         Pharmacy pharmacy = (Pharmacy) marker.getTag();
-                        tv_pharmacy_name.setText("Pharmacie " + pharmacy.getName());
+                        tv_pharmacy_name.setText(getString(R.string.pharmacie) +" " + pharmacy.getName());
                         tv_pharmacy_city.setText(pharmacy.getCity() + ", " + pharmacy.getArrondissement());
                         layout_pharmacy.setVisibility(View.VISIBLE);
                         return false;
@@ -216,7 +214,7 @@ public class HomeFragment extends Fragment {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
         } else {
-            Toast.makeText(getActivity(), "Location permission denied", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.permission_localisation_refusee), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -274,7 +272,7 @@ public class HomeFragment extends Fragment {
         // Output format
         String output = "json";
         // API key
-        String key = "key=AIzaSyAVX5FSWvTtpXBd4nOFwiul1bWSSSANGAo";
+        String key = "key="+getString(R.string.google_maps_key);
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&" + key;
         return url;
@@ -364,7 +362,7 @@ public class HomeFragment extends Fragment {
 
                 for (HashMap<String, String> point: path) {
                     double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lon"));
+                    double lng = Double.parseDouble(point.get("lng"));
                     points.add(new LatLng(lat, lng));
                 }
                 polylineOptions.addAll(points);
@@ -376,7 +374,7 @@ public class HomeFragment extends Fragment {
             if (polylineOptions != null) {
                 currentPolyline = map.addPolyline(polylineOptions);
             } else {
-                Toast.makeText(getActivity(), "Direction not found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.direction_introuvable), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -387,7 +385,6 @@ public class HomeFragment extends Fragment {
                 .zoom(16)
                 .tilt(30)
                 .build();
-
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
@@ -404,14 +401,14 @@ public class HomeFragment extends Fragment {
         for (Pharmacy pharmacy: pharmacies) {
             Marker marker =  map.addMarker(new MarkerOptions()
                     .position(pharmacy.getLagLng())
-                    .title("Pharmacie " + pharmacy.getName())
+                    .title(getString(R.string.pharmacie) + " " + pharmacy.getName())
                     .icon(bitmapDescriptorFromVector(getActivity(), markerIcon)));
             marker.setTag(pharmacy);
             if (isPharmacyFromProfile) {
                 if (pharmacy.getId().equals(pharmacyFromProfile.getId())) {
                     currentLocation = pharmacy.getLagLng();
                     marker.showInfoWindow();
-                    tv_pharmacy_name.setText("Pharmacie " + pharmacy.getName());
+                    tv_pharmacy_name.setText(getString(R.string.pharmacie)+ " " + pharmacy.getName());
                     tv_pharmacy_city.setText(pharmacy.getCity() + ", " + pharmacy.getArrondissement());
                     layout_pharmacy.setVisibility(View.VISIBLE);
                     selectedMarker = marker;

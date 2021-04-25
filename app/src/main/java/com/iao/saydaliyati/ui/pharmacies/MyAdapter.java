@@ -34,9 +34,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_pharmacy, parent, false);
-
-
-
         return new ViewHolder(view);
     }
 
@@ -44,7 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pharmacy pharmacy = pharmacies.get(position);
 
-        holder.getTv_list_item_name().setText(pharmacy.getName());
+        holder.getTv_list_item_name().setText("Pharmacie "+ pharmacy.getName());
         holder.getTv_list_item_city().setText(pharmacy.getCity()+ ", "+ pharmacy.getArrondissement());
 
         if (pharmacy.isGard()) {
